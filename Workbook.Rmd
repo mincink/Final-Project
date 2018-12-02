@@ -1,6 +1,27 @@
 ---
-title: "R Notebook"
+title: "Final Project"
+author: "Kimberly Micin"
 output: html_notebook
 ---
 
-Workbook?
+#Load Packages
+```{r}
+library(DataComputing)
+library(mosaic)
+library(readxl)
+
+```
+
+#Load and inspect Data
+```{r}
+FBI <- read_excel("C:\\Users\\minci\\Downloads\\FBI Data.xls")
+View(FBI)
+```
+
+#Clean Data
+```{r}
+Crime <-
+  
+  
+```
+
