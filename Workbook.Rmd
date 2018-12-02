@@ -14,14 +14,37 @@ library(readxl)
 
 #Load and inspect Data
 ```{r}
-FBI <- read_excel("C:\\Users\\minci\\Downloads\\FBI Data.xls")
-View(FBI)
+FBI_year <- read_excel("C:\\Users\\minci\\Downloads\\FBI Data.xls")
+View(FBI_year)
+
+FBI_local <-read_excel("C:\\Users\\minci\\Downloads\\FBI Data 2.xls")
+View(FBI_local)
 ```
 
 #Clean Data
+
+##Filter out unnessesary rows
 ```{r}
-Crime <-
-  
-  
+Crime_year <- 
+  FBI_year %>%
+  filter(row_number()>3)%>%
+  filter(row_number()< 21)
+
+View(Crime_year)
+
+Crime_local <-
+  FBI_local%>%
+  filter(row_number() >7)%>%
+  filter(row_number() <196)
+
+View(Crime_local)
+```
+
+
+##Rename variables
+```{r}
+names(Crime_year) <- c("Year", "Population", "Violent Crimes", "Violent Crime Rate", "Murder and Nonnegligent Manslaughter", "Murder and Nonnegligent Manslaughter Rate", "Rape (revised definition)", "Rape (revised definition) Rate", "Rape (legacy definition)", "Rape (legacy definition) Rate", "Robbery", "Robbery Rate", "Aggravated Assault", "Aggravted Assault Rate", "Property Crime", "Property Crime Rate", "Burglary", "Burglary Rate", "Larceny-Theft", "Larceny-Theft Rate", "Motor Vehicle Theft", "Motor Vehicle Theft Rate")
+
+names(Crime_local) <- c("Area", "Year", "Population", "Violent Crimes", "Violent Crime Rate", "Murder and Nonnegligent Manslaughter", "Murder and Nonnegligent Manslaughter Rate", "Rape (revised definition)", "Rape (revised definition) Rate", "Rape (legacy definition)", "Rape (legacy definition) Rate", "Robbery", "Robbery Rate", "Aggravated Assault", "Aggravted Assault Rate", "Property Crime", "Property Crime Rate", "Burglary", "Burglary Rate", "Larceny-Theft", "Larceny-Theft Rate", "Motor Vehicle Theft", "Motor Vehicle Theft Rate")
 ```
 

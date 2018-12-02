@@ -194,31 +194,52 @@ library(readxl)</code></pre>
 <h1>Load and inspect Data</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuRkJJIDwtIHJlYWRfZXhjZWwoXCJDOlxcXFxVc2Vyc1xcXFxtaW5jaVxcXFxEb3dubG9hZHNcXFxcRkJJIERhdGEueGxzXCIpXG5WaWV3KEZCSSlcbiAgXG5gYGAifQ== -->
-<pre class="r"><code>FBI &lt;- read_excel(&quot;C:\\Users\\minci\\Downloads\\FBI Data.xls&quot;)
-View(FBI)
-  </code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuRkJJX3llYXIgPC0gcmVhZF9leGNlbChcIkM6XFxcXFVzZXJzXFxcXG1pbmNpXFxcXERvd25sb2Fkc1xcXFxGQkkgRGF0YS54bHNcIilcblZpZXcoRkJJX3llYXIpXG5GQklfbG9jYWwgPC1yZWFkX2V4Y2VsKFwiQzpcXFxcVXNlcnNcXFxcbWluY2lcXFxcRG93bmxvYWRzXFxcXEZCSSBEYXRhIDIueGxzXCIpXG5WaWV3KEZCSV9sb2NhbClcbmBgYCJ9 -->
+<pre class="r"><code>FBI_year &lt;- read_excel(&quot;C:\\Users\\minci\\Downloads\\FBI Data.xls&quot;)
+View(FBI_year)
+FBI_local &lt;-read_excel(&quot;C:\\Users\\minci\\Downloads\\FBI Data 2.xls&quot;)
+View(FBI_local)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
 <div id="clean-data" class="section level1">
 <h1>Clean Data</h1>
+<div id="filter-out-unnessesary-rows" class="section level2">
+<h2>Filter out unnessesary rows</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQ3JpbWUgPC1cbiAgZHJvcD1yKDIpXG5gYGAifQ== -->
-<pre class="r"><code>Crime &lt;-
-  drop=r(2)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQ3JpbWVfeWVhciA8LSBcbiAgRkJJX3llYXIgJT4lXG4gIGZpbHRlcihyb3dfbnVtYmVyKCk+MyklPiVcbiAgZmlsdGVyKHJvd19udW1iZXIoKTwgMjEpXG5WaWV3KENyaW1lX3llYXIpXG5DcmltZV9sb2NhbCA8LVxuICBGQklfbG9jYWwlPiVcbiAgZmlsdGVyKHJvd19udW1iZXIoKSA+NyklPiVcbiAgZmlsdGVyKHJvd19udW1iZXIoKSA8MTk2KVxuVmlldyhDcmltZV9sb2NhbClcbmBgYCJ9 -->
+<pre class="r"><code>Crime_year &lt;- 
+  FBI_year %&gt;%
+  filter(row_number()&gt;3)%&gt;%
+  filter(row_number()&lt; 21)
+View(Crime_year)
+Crime_local &lt;-
+  FBI_local%&gt;%
+  filter(row_number() &gt;7)%&gt;%
+  filter(row_number() &lt;196)
+View(Crime_local)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gcigyKSA6IGNvdWxkIG5vdCBmaW5kIGZ1bmN0aW9uIFwiclwiXG4ifQ== -->
-<pre><code>Error in r(2) : could not find function &quot;r&quot;</code></pre>
-<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="rename-variables" class="section level2">
+<h2>Rename variables</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoQ3JpbWVfeWVhcikgPC0gYyhcIlllYXJcIiwgXCJQb3B1bGF0aW9uXCIsIFwiVmlvbGVudCBDcmltZXNcIiwgXCJWaW9sZW50IENyaW1lIFJhdGVcIiwgXCJNdXJkZXIgYW5kIE5vbm5lZ2xpZ2VudCBNYW5zbGF1Z2h0ZXJcIiwgXCJNdXJkZXIgYW5kIE5vbm5lZ2xpZ2VudCBNYW5zbGF1Z2h0ZXIgUmF0ZVwiLCBcIlJhcGUgKHJldmlzZWQgZGVmaW5pdGlvbilcIiwgXCJSYXBlIChyZXZpc2VkIGRlZmluaXRpb24pIFJhdGVcIiwgXCJSYXBlIChsZWdhY3kgZGVmaW5pdGlvbilcIiwgXCJSYXBlIChsZWdhY3kgZGVmaW5pdGlvbikgUmF0ZVwiLCBcIlJvYmJlcnlcIiwgXCJSb2JiZXJ5IFJhdGVcIiwgXCJBZ2dyYXZhdGVkIEFzc2F1bHRcIiwgXCJBZ2dyYXZ0ZWQgQXNzYXVsdCBSYXRlXCIsIFwiUHJvcGVydHkgQ3JpbWVcIiwgXCJQcm9wZXJ0eSBDcmltZSBSYXRlXCIsIFwiQnVyZ2xhcnlcIiwgXCJCdXJnbGFyeSBSYXRlXCIsIFwiTGFyY2VueS1UaGVmdFwiLCBcIkxhcmNlbnktVGhlZnQgUmF0ZVwiLCBcIk1vdG9yIFZlaGljbGUgVGhlZnRcIiwgXCJNb3RvciBWZWhpY2xlIFRoZWZ0IFJhdGVcIilcblxubmFtZXMoQ3JpbWVfbG9jYWwpIDwtIGMoXCJBcmVhXCIsIFwiWWVhclwiLCBcIlBvcHVsYXRpb25cIiwgXCJWaW9sZW50IENyaW1lc1wiLCBcIlZpb2xlbnQgQ3JpbWUgUmF0ZVwiLCBcIk11cmRlciBhbmQgTm9ubmVnbGlnZW50IE1hbnNsYXVnaHRlclwiLCBcIk11cmRlciBhbmQgTm9ubmVnbGlnZW50IE1hbnNsYXVnaHRlciBSYXRlXCIsIFwiUmFwZSAocmV2aXNlZCBkZWZpbml0aW9uKVwiLCBcIlJhcGUgKHJldmlzZWQgZGVmaW5pdGlvbikgUmF0ZVwiLCBcIlJhcGUgKGxlZ2FjeSBkZWZpbml0aW9uKVwiLCBcIlJhcGUgKGxlZ2FjeSBkZWZpbml0aW9uKSBSYXRlXCIsIFwiUm9iYmVyeVwiLCBcIlJvYmJlcnkgUmF0ZVwiLCBcIkFnZ3JhdmF0ZWQgQXNzYXVsdFwiLCBcIkFnZ3JhdnRlZCBBc3NhdWx0IFJhdGVcIiwgXCJQcm9wZXJ0eSBDcmltZVwiLCBcIlByb3BlcnR5IENyaW1lIFJhdGVcIiwgXCJCdXJnbGFyeVwiLCBcIkJ1cmdsYXJ5IFJhdGVcIiwgXCJMYXJjZW55LVRoZWZ0XCIsIFwiTGFyY2VueS1UaGVmdCBSYXRlXCIsIFwiTW90b3IgVmVoaWNsZSBUaGVmdFwiLCBcIk1vdG9yIFZlaGljbGUgVGhlZnQgUmF0ZVwiKVxuYGBgIn0= -->
+<pre class="r"><code>names(Crime_year) &lt;- c(&quot;Year&quot;, &quot;Population&quot;, &quot;Violent Crimes&quot;, &quot;Violent Crime Rate&quot;, &quot;Murder and Nonnegligent Manslaughter&quot;, &quot;Murder and Nonnegligent Manslaughter Rate&quot;, &quot;Rape (revised definition)&quot;, &quot;Rape (revised definition) Rate&quot;, &quot;Rape (legacy definition)&quot;, &quot;Rape (legacy definition) Rate&quot;, &quot;Robbery&quot;, &quot;Robbery Rate&quot;, &quot;Aggravated Assault&quot;, &quot;Aggravted Assault Rate&quot;, &quot;Property Crime&quot;, &quot;Property Crime Rate&quot;, &quot;Burglary&quot;, &quot;Burglary Rate&quot;, &quot;Larceny-Theft&quot;, &quot;Larceny-Theft Rate&quot;, &quot;Motor Vehicle Theft&quot;, &quot;Motor Vehicle Theft Rate&quot;)
+
+names(Crime_local) &lt;- c(&quot;Area&quot;, &quot;Year&quot;, &quot;Population&quot;, &quot;Violent Crimes&quot;, &quot;Violent Crime Rate&quot;, &quot;Murder and Nonnegligent Manslaughter&quot;, &quot;Murder and Nonnegligent Manslaughter Rate&quot;, &quot;Rape (revised definition)&quot;, &quot;Rape (revised definition) Rate&quot;, &quot;Rape (legacy definition)&quot;, &quot;Rape (legacy definition) Rate&quot;, &quot;Robbery&quot;, &quot;Robbery Rate&quot;, &quot;Aggravated Assault&quot;, &quot;Aggravted Assault Rate&quot;, &quot;Property Crime&quot;, &quot;Property Crime Rate&quot;, &quot;Burglary&quot;, &quot;Burglary Rate&quot;, &quot;Larceny-Theft&quot;, &quot;Larceny-Theft Rate&quot;, &quot;Motor Vehicle Theft&quot;, &quot;Motor Vehicle Theft Rate&quot;)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
+</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkZpbmFsIFByb2plY3QiDQphdXRob3I6ICJLaW1iZXJseSBNaWNpbiINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiNMb2FkIFBhY2thZ2VzDQpgYGB7cn0NCmxpYnJhcnkoRGF0YUNvbXB1dGluZykNCmxpYnJhcnkobW9zYWljKQ0KbGlicmFyeShyZWFkeGwpDQoNCmBgYA0KDQojTG9hZCBhbmQgaW5zcGVjdCBEYXRhDQpgYGB7cn0NCkZCSSA8LSByZWFkX2V4Y2VsKCJDOlxcVXNlcnNcXG1pbmNpXFxEb3dubG9hZHNcXEZCSSBEYXRhLnhscyIpDQpWaWV3KEZCSSkNCmBgYA0KDQojQ2xlYW4gRGF0YQ0KYGBge3J9DQpDcmltZSA8LQ0KICANCiAgDQpgYGANCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkZpbmFsIFByb2plY3QiDQphdXRob3I6ICJLaW1iZXJseSBNaWNpbiINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiNMb2FkIFBhY2thZ2VzDQpgYGB7cn0NCmxpYnJhcnkoRGF0YUNvbXB1dGluZykNCmxpYnJhcnkobW9zYWljKQ0KbGlicmFyeShyZWFkeGwpDQoNCmBgYA0KDQojTG9hZCBhbmQgaW5zcGVjdCBEYXRhDQpgYGB7cn0NCkZCSV95ZWFyIDwtIHJlYWRfZXhjZWwoIkM6XFxVc2Vyc1xcbWluY2lcXERvd25sb2Fkc1xcRkJJIERhdGEueGxzIikNClZpZXcoRkJJX3llYXIpDQoNCkZCSV9sb2NhbCA8LXJlYWRfZXhjZWwoIkM6XFxVc2Vyc1xcbWluY2lcXERvd25sb2Fkc1xcRkJJIERhdGEgMi54bHMiKQ0KVmlldyhGQklfbG9jYWwpDQpgYGANCg0KI0NsZWFuIERhdGENCg0KIyNGaWx0ZXIgb3V0IHVubmVzc2VzYXJ5IHJvd3MNCmBgYHtyfQ0KQ3JpbWVfeWVhciA8LSANCiAgRkJJX3llYXIgJT4lDQogIGZpbHRlcihyb3dfbnVtYmVyKCk+MyklPiUNCiAgZmlsdGVyKHJvd19udW1iZXIoKTwgMjEpDQoNClZpZXcoQ3JpbWVfeWVhcikNCg0KQ3JpbWVfbG9jYWwgPC0NCiAgRkJJX2xvY2FsJT4lDQogIGZpbHRlcihyb3dfbnVtYmVyKCkgPjcpJT4lDQogIGZpbHRlcihyb3dfbnVtYmVyKCkgPDE5NikNCg0KVmlldyhDcmltZV9sb2NhbCkNCmBgYA0KDQoNCiMjUmVuYW1lIHZhcmlhYmxlcw0KYGBge3J9DQpuYW1lcyhDcmltZV95ZWFyKSA8LSBjKCJZZWFyIiwgIlBvcHVsYXRpb24iLCAiVmlvbGVudCBDcmltZXMiLCAiVmlvbGVudCBDcmltZSBSYXRlIiwgIk11cmRlciBhbmQgTm9ubmVnbGlnZW50IE1hbnNsYXVnaHRlciIsICJNdXJkZXIgYW5kIE5vbm5lZ2xpZ2VudCBNYW5zbGF1Z2h0ZXIgUmF0ZSIsICJSYXBlIChyZXZpc2VkIGRlZmluaXRpb24pIiwgIlJhcGUgKHJldmlzZWQgZGVmaW5pdGlvbikgUmF0ZSIsICJSYXBlIChsZWdhY3kgZGVmaW5pdGlvbikiLCAiUmFwZSAobGVnYWN5IGRlZmluaXRpb24pIFJhdGUiLCAiUm9iYmVyeSIsICJSb2JiZXJ5IFJhdGUiLCAiQWdncmF2YXRlZCBBc3NhdWx0IiwgIkFnZ3JhdnRlZCBBc3NhdWx0IFJhdGUiLCAiUHJvcGVydHkgQ3JpbWUiLCAiUHJvcGVydHkgQ3JpbWUgUmF0ZSIsICJCdXJnbGFyeSIsICJCdXJnbGFyeSBSYXRlIiwgIkxhcmNlbnktVGhlZnQiLCAiTGFyY2VueS1UaGVmdCBSYXRlIiwgIk1vdG9yIFZlaGljbGUgVGhlZnQiLCAiTW90b3IgVmVoaWNsZSBUaGVmdCBSYXRlIikNCg0KbmFtZXMoQ3JpbWVfbG9jYWwpIDwtIGMoIkFyZWEiLCAiWWVhciIsICJQb3B1bGF0aW9uIiwgIlZpb2xlbnQgQ3JpbWVzIiwgIlZpb2xlbnQgQ3JpbWUgUmF0ZSIsICJNdXJkZXIgYW5kIE5vbm5lZ2xpZ2VudCBNYW5zbGF1Z2h0ZXIiLCAiTXVyZGVyIGFuZCBOb25uZWdsaWdlbnQgTWFuc2xhdWdodGVyIFJhdGUiLCAiUmFwZSAocmV2aXNlZCBkZWZpbml0aW9uKSIsICJSYXBlIChyZXZpc2VkIGRlZmluaXRpb24pIFJhdGUiLCAiUmFwZSAobGVnYWN5IGRlZmluaXRpb24pIiwgIlJhcGUgKGxlZ2FjeSBkZWZpbml0aW9uKSBSYXRlIiwgIlJvYmJlcnkiLCAiUm9iYmVyeSBSYXRlIiwgIkFnZ3JhdmF0ZWQgQXNzYXVsdCIsICJBZ2dyYXZ0ZWQgQXNzYXVsdCBSYXRlIiwgIlByb3BlcnR5IENyaW1lIiwgIlByb3BlcnR5IENyaW1lIFJhdGUiLCAiQnVyZ2xhcnkiLCAiQnVyZ2xhcnkgUmF0ZSIsICJMYXJjZW55LVRoZWZ0IiwgIkxhcmNlbnktVGhlZnQgUmF0ZSIsICJNb3RvciBWZWhpY2xlIFRoZWZ0IiwgIk1vdG9yIFZlaGljbGUgVGhlZnQgUmF0ZSIpDQpgYGANCg0K</div>
 
 
 
