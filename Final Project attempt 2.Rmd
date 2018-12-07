@@ -59,8 +59,9 @@ The first thing I wanted to see was how the rate of violent crimes changed over 
 
 ```{r}
 FBI_year%>%
-  ggplot(aes(x=year, y=`violent crime rate`))+
+  ggplot(aes(x=as.numeric(year), y=as.numeric(`violent crime rate`)))+
   geom_point()+
+  stat_smooth()+
   ggtitle("Year vs Violent Crime Rate")+
   ylab("Violent Crime Rate")+
   xlab("Year")
@@ -69,56 +70,56 @@ FBI_year%>%
 I then decided to view each type of crime vs year independently to see if they all followed this same downward trend. property crime and motor vehicle theft both yielded surprising results. They both had huge spikes in 2007 and 2008. While the number of property crimes and motor vehicle thefts have decreased since then they still remain higher than they were before the spike. After some research the spike is likely caused by the 2007-2008 economic crash. 
 ```{r}
 FBI_year%>%
-  ggplot(aes(x=year, y=`murder and nonnegligent manslaughter`))+
+  ggplot(aes(x=as.numeric(year), y=as.numeric(`murder and nonnegligent manslaughter`)))+
   geom_point()+
   ggtitle("Year vs Nonnegligent Manslaughter")+
   ylab("Nonnegligent Manslaughter")+
   xlab("Year")
 
 FBI_year%>%
-  ggplot(aes(x=year, y=robbery))+
+  ggplot(aes(x=as.numeric(year), y=as.numeric(robbery)))+
   geom_point()+
   ggtitle("Year vs Robbery")+
   ylab("Robbery")+
   xlab("Year")
 
 FBI_year%>%
-  ggplot(aes(x=year, y=`aggravated assault`))+
+  ggplot(aes(as.numeric(x=year), y=as.numeric(`aggravated assault`)))+
   geom_point()+
   ggtitle("Year vs Aggravated Assault")+
   ylab("Aggravated Assault")+
   xlab("Year")
 
 FBI_year%>%
-  ggplot(aes(x=year, y=`property crime`))+
+  ggplot(aes(as.numeric(x=year), y=as.numeric(`property crime`)))+
   geom_point()+
   ggtitle("Year vs Property Crime")+
   ylab("Property Crime")+
   xlab("Year")
 
 FBI_year%>%
-  ggplot(aes(x=year, y=burglary))+
+  ggplot(aes(as.numeric(x=year), y=as.numeric(burglary)))+
   geom_point()+
   ggtitle("Year vs Burglary")+
   ylab("Burglary")+
   xlab("Year")
 
 FBI_year%>%
-  ggplot(aes(x=year, y=`larceny-theft`))+
+  ggplot(aes(x=as.numeric(year), y=as.numeric(`larceny-theft`)))+
   geom_point()+
   ggtitle("Year vs Larceny-Theft")+
   ylab("Larceny-Theft")+
   xlab("Year")
 
 FBI_year%>%
-  ggplot(aes(x=year, y=`motor vehicle theft`))+
+  ggplot(aes(x=as.numeric(year), y=as.numeric(`motor vehicle theft`)))+
   geom_point()+
   ggtitle("Year vs Motor Vehicle Theft")+
   ylab("Motor Vehicle Theft")+
   xlab("Year")
 
 FBI_year%>%
-  ggplot(aes(x=year, y=rape))+
+  ggplot(aes(x=as.numeric(year), y=as.numeric(rape), color=`rape definition`))+
   geom_point(aes(shape=`rape definition`))+
   ggtitle("Year vs Rape")+
   ylab("Rape")+
@@ -126,7 +127,7 @@ FBI_year%>%
 ```
 
 
-In order to figure out the best predictor of violent crimes I created a tree using the different types of crime. The best and only statistically significant predictor of violent crime was aggravated assault. 
+In order to figure out the best predictor of violent crimes I created a tree using the different types of crime. The best and only statistically significant predictor of violent crime was aggravated assault. I am not surprised that aggravated assault is the best predictor for the number of violent crimes since it's graph most closely matches that of violent crimes. However I am surprised that it is the only significant variable for predictiong the number of violent crimes. 
 
 ```{r}
 mod1 <- party::ctree(as.numeric(`violent crimes`) ~ as.numeric(`murder and nonnegligent manslaughter`) + as.numeric(robbery) + as.numeric(`aggravated assault`) + as.numeric(burglary) + as.numeric(`larceny-theft`) + as.numeric(`motor vehicle theft`) + as.numeric(rape), data=FBI)
